@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useOrder } from "../context/OrderContext";
-import "../styles/OrderDetail.css";
 
 export default function OrderDetail() {
   const { id } = useParams();

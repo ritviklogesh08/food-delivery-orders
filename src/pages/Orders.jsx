@@ -1,6 +1,5 @@
 import { useOrder } from "../context/OrderContext";
 import OrderCard from "../components/OrderCard";
-import "../styles/Orders.css";
 
 export default function Orders() {
   const { orders, loading } = useOrder();

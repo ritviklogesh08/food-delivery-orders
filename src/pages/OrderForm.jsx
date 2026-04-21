@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useOrder } from "../context/OrderContext";
 import { v4 as uuidv4 } from "uuid";
-import "../styles/OrderForm.css";
 
 const OrderForm = () => {
   const { orders, dispatch } = useOrder();

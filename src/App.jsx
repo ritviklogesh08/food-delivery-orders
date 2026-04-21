@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import AppRouter from "./routers/AppRouter.jsx";
 import { OrderProvider } from "./context/OrderContext.jsx";
 

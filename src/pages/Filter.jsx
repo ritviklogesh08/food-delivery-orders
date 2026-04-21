@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useOrder } from "../context/OrderContext";
 import OrderCard from "../components/OrderCard";
-import "../styles/Filter.css";
 
 export default function Filter() {
   const { orders, filterOrdersByRestaurant, filteredOrders } = useOrder();
