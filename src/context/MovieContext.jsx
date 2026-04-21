@@ -7,6 +7,9 @@ const initialState = {
   movies: [],
   favorites: [],
   loading: true,
+  searchTerm: "",
+  searchTerm: "",
+  searchTerm: "",
 };
 
 export const MovieContext = createContext();
@@ -20,9 +23,9 @@ export const MovieProvider = ({ children }) => {
       try {
         // Step 1: Get Token
         const tokenRes = await getToken(
-          "20084016", // replace during exam
-          "264006", // replace during exam
-          "movies", // dataset set
+          "E0423001", // replace during exam
+          "890473", // replace during exam
+          "food", // dataset set
         );
 
         // Step 2: Fetch dataset

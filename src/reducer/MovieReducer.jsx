@@ -45,6 +45,12 @@ const MovieReducer = (state, action) => {
         favorites: state.movies.filter((m) => m.favorite === true),
       };
 
+    case "SET_SEARCH":
+      return {
+        ...state,
+        searchTerm: action.payload,
+      };
+
     default:
       console.warn("Unknown action:", action.type);
       return state;
