@@ -1,54 +1,51 @@
-const MovieReducer = (state, action) => {
+const OrderReducer = (state, action) => {
   switch (action.type) {
-    case "SET_MOVIES":
+    case "SET_ORDERS":
       return {
         ...state,
-        movies: Array.isArray(action.payload) ? action.payload : [],
+        orders: Array.isArray(action.payload) ? action.payload : [],
+        filteredOrders: Array.isArray(action.payload) ? action.payload : [],
         loading: false,
       };
 
-    case "ADD_MOVIE":
+    case "TOGGLE_ORDER_STATUS":
       return {
         ...state,
-        movies: [...state.movies, action.payload],
-      };
-
-    case "TOGGLE_WATCHED":
-      return {
-        ...state,
-        movies: state.movies.map((m) =>
-          m.id === action.payload && typeof m.watched === "boolean"
-            ? { ...m, watched: !m.watched }
-            : m,
+        orders: state.orders.map((order) =>
+          order.orderId === action.payload
+            ? {
+                ...order,
+                status:
+                  order.status === "Delivered" ? "Pending" : "Delivered",
+              }
+            : order,
         ),
       };
 
-    case "TOGGLE_FAVORITE":
-      return {
-        ...state,
-        movies: state.movies.map((m) =>
-          m.id === action.payload && typeof m.favorite === "boolean"
-            ? { ...m, favorite: !m.favorite }
-            : m,
-        ),
-      };
+    case "FILTER_ORDERS":
+      const validOrders = state.orders.filter(
+        (order) =>
+          Array.isArray(order.items) &&
+          order.items.length > 0 &&
+          order.totalAmount &&
+          order.totalAmount > 0,
+      );
 
-    case "DELETE_MOVIE":
-      return {
-        ...state,
-        movies: state.movies.filter((m) => m.id !== action.payload),
-      };
+      const filtered =
+        action.payload === ""
+          ? validOrders
+          : validOrders.filter(
+              (order) =>
+                order.restaurant &&
+                order.restaurant
+                  .toLowerCase()
+                  .includes(action.payload.toLowerCase()),
+            );
 
-    case "SET_FAVORITES":
       return {
         ...state,
-        favorites: state.movies.filter((m) => m.favorite === true),
-      };
-
-    case "SET_SEARCH":
-      return {
-        ...state,
-        searchTerm: action.payload,
+        filteredOrders: filtered,
+        filterRestaurant: action.payload,
       };
 
     default:
@@ -57,4 +54,4 @@ const MovieReducer = (state, action) => {
   }
 };
 
-export default MovieReducer;
+export default OrderReducer;

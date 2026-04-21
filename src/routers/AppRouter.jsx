@@ -2,21 +2,21 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
-import Home from "../pages/Home";
-import MovieStats from "../components/MovieStats";
-import Favorites from "../pages/Favorites";
+import Orders from "../pages/Orders";
+import OrderDetail from "../pages/OrderDetail";
+import Filter from "../pages/Filter";
+import Stats from "../pages/Stats";
 
 const AppRouter = () => {
   return (
     <Router>
       <MainLayout>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/stats" element={<MovieStats />} />
-
-          {/* Optional but important for CA2 pattern */}
-          <Route path="/movies/:id" element={<Home />} />
+          <Route path="/" element={<Orders />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/:id" element={<OrderDetail />} />
+          <Route path="/filter" element={<Filter />} />
+          <Route path="/stats" element={<Stats />} />
 
           {/* Fallback */}
           <Route path="*" element={<h2>Page Not Found</h2>} />

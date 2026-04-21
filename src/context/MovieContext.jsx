@@ -1,25 +1,23 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import MovieReducer from "../reducer/MovieReducer";
+import OrderReducer from "../reducer/MovieReducer";
 import axios from "axios";
 import { getToken, getDataset } from "../api/api";
 
 const initialState = {
-  movies: [],
-  favorites: [],
+  orders: [],
+  filteredOrders: [],
   loading: true,
-  searchTerm: "",
-  searchTerm: "",
-  searchTerm: "",
+  filterRestaurant: "",
 };
 
-export const MovieContext = createContext();
+export const OrderContext = createContext();
 
-export const MovieProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(MovieReducer, initialState);
+export const OrderProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(OrderReducer, initialState);
 
-  // Fetch movies from server
+  // Fetch orders from server
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchOrders = async () => {
       try {
         // Step 1: Get Token
         const tokenRes = await getToken(
@@ -29,47 +27,55 @@ export const MovieProvider = ({ children }) => {
         );
 
         // Step 2: Fetch dataset
-        const movies = await getDataset(tokenRes.token, tokenRes.dataUrl);
+        const orders = await getDataset(tokenRes.token, tokenRes.dataUrl);
 
-        dispatch({ type: "SET_MOVIES", payload: movies });
+        dispatch({ type: "SET_ORDERS", payload: orders });
       } catch (err) {
         console.error("Error fetching data:", err.message);
       }
     };
 
-    fetchMovies();
+    fetchOrders();
   }, []);
 
-  // Sync favorites automatically
+  // Expose global state for testing
   useEffect(() => {
-    dispatch({ type: "SET_FAVORITES" });
-  }, [state.movies]);
+    const validOrders = state.orders.filter(order => 
+      Array.isArray(order.items) && 
+      order.items.length > 0 &&
+      order.totalAmount && 
+      order.totalAmount > 0
+    );
+    
+    const stats = {
+      totalOrders: validOrders.length,
+      deliveredOrders: validOrders.filter(o => o.status === "Delivered").length,
+      cancelledOrders: validOrders.filter(o => o.status === "Cancelled").length,
+    };
+    
+    window.appState = stats;
+  }, [state.orders]);
 
-  const addMovie = (movie) => dispatch({ type: "ADD_MOVIE", payload: movie });
+  const toggleOrderStatus = (id) =>
+    dispatch({ type: "TOGGLE_ORDER_STATUS", payload: id });
 
-  const toggleWatched = (id) =>
-    dispatch({ type: "TOGGLE_WATCHED", payload: id });
-
-  const deleteMovie = (id) => dispatch({ type: "DELETE_MOVIE", payload: id });
-
-  const toggleFavorite = (id) =>
-    dispatch({ type: "TOGGLE_FAVORITE", payload: id });
+  const filterOrdersByRestaurant = (restaurant) =>
+    dispatch({ type: "FILTER_ORDERS", payload: restaurant });
 
   return (
-    <MovieContext.Provider
+    <OrderContext.Provider
       value={{
-        movies: state.movies,
-        favorites: state.favorites,
+        orders: state.orders,
+        filteredOrders: state.filteredOrders,
         loading: state.loading,
-        addMovie,
-        toggleWatched,
-        deleteMovie,
-        toggleFavorite,
+        filterRestaurant: state.filterRestaurant,
+        toggleOrderStatus,
+        filterOrdersByRestaurant,
       }}
     >
       {children}
-    </MovieContext.Provider>
+    </OrderContext.Provider>
   );
 };
 
-export const useMovie = () => useContext(MovieContext);
+export const useOrder = () => useContext(OrderContext);
