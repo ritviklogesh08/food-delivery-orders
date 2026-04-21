@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useOrder } from "../context/MovieContext";
+import { useOrder } from "../context/OrderContext";
 import "../styles/OrderCard.css";
 
 export default function OrderCard({ order }) {

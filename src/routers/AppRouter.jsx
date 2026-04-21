@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import Orders from "../pages/Orders";
 import OrderDetail from "../pages/OrderDetail";
+import OrderForm from "../pages/OrderForm";
 import Filter from "../pages/Filter";
 import Stats from "../pages/Stats";
 
@@ -15,6 +16,7 @@ const AppRouter = () => {
           <Route path="/" element={<Orders />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:id" element={<OrderDetail />} />
+          <Route path="/add-order" element={<OrderForm />} />
           <Route path="/filter" element={<Filter />} />
           <Route path="/stats" element={<Stats />} />
 

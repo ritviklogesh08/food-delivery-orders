@@ -1,4 +1,4 @@
-import { useOrder } from "../context/MovieContext";
+import { useOrder } from "../context/OrderContext";
 import "../styles/Stats.css";
 
 export default function Stats() {

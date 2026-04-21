@@ -1,4 +1,4 @@
-import { useOrder } from "../context/MovieContext";
+import { useOrder } from "../context/OrderContext";
 import OrderCard from "../components/OrderCard";
 import "../styles/Orders.css";
 

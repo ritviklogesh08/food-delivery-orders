@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import AppRouter from "./routers/AppRouter.jsx";
-import { OrderProvider } from "./context/MovieContext.jsx";
+import { OrderProvider } from "./context/OrderContext.jsx";
 
 const App = () => {
   return (
